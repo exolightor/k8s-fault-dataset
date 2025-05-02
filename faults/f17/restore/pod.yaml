@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: stress-f17
+  name: stress-f17
+  namespace: ba-test
+spec:
+  containers:
+  - image: stress-f17
+    name: stress-f17
+    resources: 
+      limits:
+        cpu: 200m
+        memory: 128Mi
+    imagePullPolicy: Never
+  restartPolicy: Always

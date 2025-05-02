@@ -1,0 +1,22 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+patches:
+- patch: |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: currencyservice
+    spec:
+      template:
+        spec:
+          containers:
+          - name: server
+            resources: 
+              requests:
+                cpu: 600m
+              limits:
+                cpu: 600m
+          
+resources:
+- ../../../microservices-demo/kubernetes-manifests/currencyservice.yaml
+namespace: ms-demo

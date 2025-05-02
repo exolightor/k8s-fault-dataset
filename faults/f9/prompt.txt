@@ -1,0 +1,63 @@
+Affected by the issue is the ReplicaSet with the name paymentservice-bk66j8r8zp in the namespace ms-demo. Here is the corresponding yaml file:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: paymentservice
+  name: paymentservice
+  namespace: ms-demo
+spec:
+  selector:
+    matchLabels:
+      app: paymentservice
+  template:
+    metadata:
+      labels:
+        app: paymentservice
+    spec:
+      containers:
+      - env:
+        - name: PORT
+          value: "50051"
+        - name: DISABLE_PROFILER
+          value: "1"
+        image: paymentservice
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          grpc:
+            port: 50051
+        name: server
+        ports:
+        - containerPort: 50051
+        readinessProbe:
+          grpc:
+            port: 50051
+        resources:
+          limits:
+            cpu: 200m
+            memory: 1500Mi
+          requests:
+            cpu: 100m
+            memory: 1400Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          privileged: false
+          readOnlyRootFilesystem: true
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+      serviceAccountName: paymentservice
+      terminationGracePeriodSeconds: 5
+```.
+
+Here is the error simplification and solution recommendation to guide your remediation:
+
+Error: pods paymentservice-bk66j8r8zp-bmkf6 is forbidden: exceeded quota: ms-demo, requested: memory=1400Mi, used: memory=1032Mi, limited: memory=2000Mi
+Solution: The Pod does not get created. The output shows that creating the Pod would cause the memory request total to exceed the memory request quota.

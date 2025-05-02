@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations: {}
+  labels:
+    app: nginx-f13
+  name: nginx-f13
+  namespace: ba-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-f13
+  template:
+    metadata:
+      labels:
+        app: nginx-f13
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        resources:
+          limits:
+            cpu: 500m
+            memory: 900Mi

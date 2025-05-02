@@ -1,0 +1,6 @@
+FROM polinux/stress as stress
+FROM paymentservice
+COPY --from=stress /usr/local/bin/stress /usr/local/bin/stress
+COPY entrypoint.sh entrypoint.sh
+RUN chmod +x entrypoint.sh
+ENTRYPOINT ["/usr/src/app/entrypoint.sh"]

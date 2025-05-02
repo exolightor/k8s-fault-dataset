@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: nginx-f2
+  name: nginx-f2
+  namespace: ba-test
+spec:
+  containers:
+  - image: webserver
+    imagePullPolicy: IfNotPresent
+    name: nginx-f2
+    resources: 
+      limits: 
+        cpu: 200m
+        memory: 50Mi
+  restartPolicy: Always

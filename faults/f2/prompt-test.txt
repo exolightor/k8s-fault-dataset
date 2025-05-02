@@ -1,0 +1,39 @@
+Affected by the issue is the Pod with the name nginx-f2-bhnctlfgck-sb7gg in the namespace ba-test. Here is the corresponding yaml file:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations: {}
+  labels:
+    app: nginx-f2
+  name: nginx-f2
+  namespace: ba-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-f2
+  template:
+    metadata:
+      labels:
+        app: nginx-f2
+    spec:
+      containers:
+      - image: webserver
+        imagePullPolicy: IfNotPresent
+        name: nginx
+        resources:
+          limits:
+            cpu: 200m
+            memory: 50Mi
+          requests:
+            cpu: 200m
+            memory: 50Mi
+```.
+
+Here is the error simplification and solution recommendation to guide your remediation:
+
+Error: the last termination reason is OOMKilled container=nginx pod=nginx-f2-bhnctlfgck-sb7gg
+Solution: The OOMKilled reason shows that the container tried to use more memory than its limit.
+Your next step might be to check the application code for a memory leak. If you find that the application is behaving how you expect, consider setting a higher memory limit (and possibly request) for that container.

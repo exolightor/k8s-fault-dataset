@@ -1,0 +1,67 @@
+Affected by the issue is the Pod with the name adservice-kchg2gmw5b-vx5mx in the namespace ms-demo. Here is the corresponding yaml file:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: adservice
+  name: adservice
+  namespace: ms-demo
+spec:
+  selector:
+    matchLabels:
+      app: adservice
+  template:
+    metadata:
+      labels:
+        app: adservice
+    spec:
+      containers:
+      - env:
+        - name: PORT
+          value: "9555"
+        - name: JAVA_OPTS
+          value: -Xms1500M -Xmx2500M  -XX:MaxRAM=4000M
+        image: adservice
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          grpc:
+            port: 9555
+          initialDelaySeconds: 20
+          periodSeconds: 15
+        name: server
+        ports:
+        - containerPort: 9555
+        readinessProbe:
+          grpc:
+            port: 9555
+          initialDelaySeconds: 20
+          periodSeconds: 15
+        resources:
+          limits:
+            cpu: 300m
+            memory: 110Mi
+          requests:
+            cpu: 200m
+            memory: 100Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          privileged: false
+          readOnlyRootFilesystem: true
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+      serviceAccountName: adservice
+      terminationGracePeriodSeconds: 5
+```.
+
+Here is the error simplification and solution recommendation to guide your remediation:
+
+Error: the last termination reason is OOMKilled container=server pod=adservice-kchg2gmw5b-vx5mx
+Solution: The JVM memory limit is bigger than the Docker memory limit. In this case, if a request occupies too much memory, the microservice container will be killed, leading to the microservices unavailable periodly.

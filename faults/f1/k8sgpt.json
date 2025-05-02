@@ -1,0 +1,21 @@
+{
+    "provider": "localai",
+    "errors": null,
+    "status": "ProblemDetected",
+    "problems": 1,
+    "results": [
+      {
+        "kind": "Pod",
+        "name": "ba-test/nginx-f1-6875749b4d-5znl9",
+        "error": [
+          {
+            "Text": "Error response from daemon: Minimum memory limit allowed is 6MB",
+            "KubernetesDoc": "",
+            "Sensitive": []
+          }
+        ],
+        "details": " Solution: The specified memory limit for containers in your Kubernetes cluster must be at least 6MB. If you encounter this error, adjust the memory limit of your containers to meet or exceed this requirement. This can be done by modifying the container definition in your Pod manifest or Deployment configuration.",
+        "parentObject": "Deployment/nginx-f1"
+      }
+    ]
+  }

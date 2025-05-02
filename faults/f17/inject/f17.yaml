@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: stress-f17
+  name: stress-f17
+  namespace: ba-test
+spec:
+  selector:
+    matchLabels:
+      app: stress-f17
+  template:
+    metadata:
+      labels:
+        app: stress-f17
+    spec:
+      containers:
+      - image: stress-f17
+        name: stress-f17
+        resources: 
+          limits: 
+            cpu: 50m
+            memory: 128Mi
+        imagePullPolicy: Never
+      restartPolicy: Always

@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations: {}
+  labels:
+    app: nginx-f1
+  name: nginx-f1
+  namespace: ba-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-f1
+  template:
+    metadata:
+      labels:
+        app: nginx-f1
+    spec:
+      containers:
+      - image: server
+        imagePullPolicy: IfNotPresent
+        name: nginx
+        resources:
+          limits:
+            cpu: 200m
+            memory: 20Mi 

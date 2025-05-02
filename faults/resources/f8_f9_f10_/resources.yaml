@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: ba-test
+  namespace: ba-test
+spec:
+  hard:
+    cpu: "400m"
+    memory: 400Mi

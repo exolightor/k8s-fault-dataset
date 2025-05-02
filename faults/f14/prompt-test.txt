@@ -1,0 +1,35 @@
+Affected by the issue is the ReplicaSet with the name nginx-f14-7nf4c8dfwk in the namespace ba-test. Here is the corresponding yaml file:
+
+```yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations: {}
+  labels:
+    app: nginx-f14
+  name: nginx-f14
+  namespace: ba-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-f14
+  template:
+    metadata:
+      labels:
+        app: nginx-f14
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        resources:
+          limits:
+            cpu: 500m
+            memory: 80Mi 
+```.
+
+Here is the error simplification and solution recommendation to guide your remediation:
+
+Error: pods nginx-f14-7nf4c8dfwk-hp97k is forbidden: minimum memory usage per Container is 100Mi, but request is 80Mi
+Solution: The output shows that the Pod does not get created, because it defines a container that requests less memory than the enforced minimum.

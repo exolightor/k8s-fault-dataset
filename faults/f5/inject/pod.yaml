@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: nginx-f5
+  name: nginx-f5
+  namespace: ba-test
+spec:
+  containers:
+  - image: nginx
+    name: nginx-f5
+    resources: 
+      limits: 
+        cpu: 1
+        memory: 16226640Ki
+  restartPolicy: Always

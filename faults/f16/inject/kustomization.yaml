@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+patches:
+- patch: |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: loadgenerator
+    spec:
+      template:
+        spec:
+          containers:
+          - name: main
+            env:
+            - name: USERS
+              value: "40"
+            - name: LOCUST_SPAWN_RATE
+              value: "10"
+resources:
+- ../../../microservices-demo/kubernetes-manifests/loadgenerator.yaml
+namespace: ms-demo

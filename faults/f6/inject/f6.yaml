@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx-f6
+  name: nginx-f6
+  namespace: ba-test
+spec:
+  selector:
+    matchLabels:
+      app: nginx-f6
+  template:
+    metadata:
+      labels:
+        app: nginx-f6
+    spec:
+      containers:
+      - image: nginx
+        name: nginx-f6
+        resources: 
+          limits: 
+            cpu: 1
+            memory: 128Mi
+      restartPolicy: Always
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: os
+                operator: In
+                values:
+                - linux

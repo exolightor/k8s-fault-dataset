@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: nginx-f4
+  name: nginx-f4
+  namespace: ba-test
+spec:
+  containers:
+  - image: nginx
+    name: nginx-f4
+    resources: 
+      limits: 
+        cpu: 16
+        memory: 100Mi
+  restartPolicy: Always

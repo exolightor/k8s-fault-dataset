@@ -1,0 +1,35 @@
+Affected by the issue is the ReplicaSet with the name nginx-f12-g2m99n99cf in the namespace ba-test. Here is the corresponding yaml file:
+
+```yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations: {}
+  labels:
+    app: nginx-f12
+  name: nginx-f12
+  namespace: ba-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-f12
+  template:
+    metadata:
+      labels:
+        app: nginx-f12
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        resources:
+          limits:
+            cpu: 1m
+            memory: 128Mi      
+```.
+
+Here is the error simplification and solution recommendation to guide your remediation:
+
+Error: pods nginx-f12-g2m99n99cf-s8c98 is forbidden: minimum cpu usage per Container is 100m, but request is 1m
+Solution: The output shows that the Pod does not get created, because it defines an unacceptable container. That container is not acceptable because it specifies a CPU request that is lower than the enforced minimum.

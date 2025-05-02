@@ -1,0 +1,34 @@
+apiVersion: skaffold/v3
+kind: Config
+metadata:
+    name: faults
+build:
+    tagPolicy:
+      sha256: {}
+    artifacts:
+      - image: server
+        context: ./faults/f1
+        docker:
+          dockerfile: Dockerfile
+      - image: webserver
+        context: ./faults/f2
+        docker:
+          dockerfile: Dockerfile
+      - image: stress-f17
+        context: ./faults/f17
+        docker:
+          dockerfile: Dockerfile
+---
+apiVersion: skaffold/v3
+kind: Config
+metadata:
+    name: f2
+build:
+    tagPolicy:
+      envTemplate:
+        template: "{{.F2_TAG}}"
+    artifacts:
+      - image: paymentservice
+        context: ./faults/f2
+        docker:
+          dockerfile: Dockerfile.svc
