@@ -1,0 +1,8 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations: {}
+  labels:
+    app: nginx-f12
+  name: nginx-f12
+  namespace: ba-test    

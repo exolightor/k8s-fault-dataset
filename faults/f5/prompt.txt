@@ -1,0 +1,65 @@
+Affected by the issue is the Pod with the name productcatalogservice-8hvvhtdvqv-nfwp2 in the namespace ms-demo. Here is the corresponding yaml file:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: productcatalogservice
+  name: productcatalogservice
+  namespace: ms-demo
+spec:
+  selector:
+    matchLabels:
+      app: productcatalogservice
+  template:
+    metadata:
+      labels:
+        app: productcatalogservice
+    spec:
+      containers:
+      - env:
+        - name: PORT
+          value: "3550"
+        - name: DISABLE_PROFILER
+          value: "1"
+        image: productcatalogservice
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          grpc:
+            port: 3550
+        name: server
+        ports:
+        - containerPort: 3550
+        readinessProbe:
+          grpc:
+            port: 3550
+        resources:
+          limits:
+            cpu: 200m
+            memory: 9000Mi
+          requests:
+            cpu: 100m
+            memory: 9000Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          privileged: false
+          readOnlyRootFilesystem: true
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+      serviceAccountName: productcatalogservice
+      terminationGracePeriodSeconds: 5
+```.
+
+Here is the error simplification and solution recommendation to guide your remediation:
+
+Error: 0/1 nodes are available: 1 Insufficient memory. preemption: 0/1 nodes are available: 1 No preemption victims found for incoming pod.
+Solution: If a Pod is stuck in Pending it means that it can not be scheduled onto a node. Generally this is because there are insufficient resources of one type or another that prevent scheduling.
+Reasons include:
+You don't have enough resources: You may have exhausted the supply of CPU or Memory in your cluster, in this case you need to delete Pods, adjust resource requests, or add new nodes to your cluster.

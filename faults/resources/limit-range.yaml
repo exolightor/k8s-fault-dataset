@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: k8smanager
+  namespace: ms-demo
+spec:
+  limits:
+    - max:
+        cpu: "700m"
+        memory: 800Mi
+      min:
+        cpu: 100m
+        memory: 60Mi
+      type: Container 

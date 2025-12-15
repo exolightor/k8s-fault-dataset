@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations: {}
+  labels:
+    app: nginx-f10
+  name: nginx-f10
+  namespace: ba-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-f10
+  template:
+    metadata:
+      labels:
+        app: nginx-f10
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        resources: 
+          requests:
+            cpu: 100m
+            memory: 200Mi

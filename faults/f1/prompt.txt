@@ -1,0 +1,67 @@
+Affected by the issue is the Pod with the name recommendationservice-gzqrtmkzng-xtp7v in the namespace ms-demo. Here is the corresponding yaml file:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: recommendationservice
+  name: recommendationservice
+  namespace: ms-demo
+spec:
+  selector:
+    matchLabels:
+      app: recommendationservice
+  template:
+    metadata:
+      labels:
+        app: recommendationservice
+    spec:
+      containers:
+      - env:
+        - name: PORT
+          value: "8080"
+        - name: PRODUCT_CATALOG_SERVICE_ADDR
+          value: productcatalogservice:3550
+        - name: DISABLE_PROFILER
+          value: "1"
+        image: recommendationservice
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          grpc:
+            port: 8080
+          periodSeconds: 5
+        name: server
+        ports:
+        - containerPort: 8080
+        readinessProbe:
+          grpc:
+            port: 8080
+          periodSeconds: 5
+        resources:
+          limits:
+            cpu: 200m
+            memory: 5Mi
+          requests:
+            cpu: 100m
+            memory: 5Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          privileged: false
+          readOnlyRootFilesystem: true
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+      serviceAccountName: recommendationservice
+      terminationGracePeriodSeconds: 5
+```.
+
+Here is the error simplification and solution recommendation to guide your remediation:
+
+Error: Error response from daemon: Minimum memory limit allowed is 6MB
+Solution: The maximum amount of memory the container can use. If you set this option, the minimum allowed value is 6m (6 megabytes). That is, you must set the value to at least 6 megabytes.

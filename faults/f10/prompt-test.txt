@@ -1,0 +1,32 @@
+Affected by the issue is the ReplicaSet with the name nginx-f10-zfsfj9xvb4 in the namespace ba-test. Here is the corresponding yaml file:
+
+```yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations: {}
+  labels:
+    app: nginx-f10
+  name: nginx-f10
+  namespace: ba-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-f10
+  template:
+    metadata:
+      labels:
+        app: nginx-f10
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        resources: {}
+```.
+
+Here is the error simplification and solution recommendation to guide your remediation:
+
+Error: pods nginx-f10-zfsfj9xvb4-56ffr is forbidden: failed quota: ba-test: must specify cpu for: nginx; memory for: nginx
+Solution: If quotas are enabled in a namespace for compute resources like cpu and memory, users must specify requests or limits for those values; otherwise, the quota system may reject pod creation. Hint: Use the LimitRanger admission controller to force defaults for pods that make no compute resource requirements.

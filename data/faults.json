@@ -1,0 +1,137 @@
+[
+  {
+    "id": 1,
+    "kind": "Pod",
+    "category": "Resource Management",
+    "event": "CreateContainerError",
+    "error": "Error response from daemon: Minimum memory limit allowed is 6MB",
+    "reference_root_cause": "The maximum amount of memory the container can use. If you set this option, the minimum allowed value is 6m (6 megabytes). That is, you must set the value to at least 6 megabytes.",
+    "docs": "https://docs.docker.com/engine/containers/resource_constraints/#limit-a-containers-access-to-memory"
+  },
+  {
+    "id": 2,
+    "kind": "Pod",
+    "category": "Resource Management",
+    "event": "OOMKilled",
+    "error": "the last termination reason is OOMKilled container={FAULT_CONTAINER} pod={FAULT_POD}",
+    "reference_root_cause": "The OOMKilled reason shows that the container tried to use more memory than its limit.\nYour next step might be to check the application code for a memory leak. If you find that the application is behaving how you expect, consider setting a higher memory limit (and possibly request) for that container.",
+    "docs": "https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#my-container-is-terminated"
+  },
+  {
+    "id": 3,
+    "kind": "Pod",
+    "category": "Scheduling",
+    "event": "FailedScheduling",
+    "error": "0/1 nodes are available: 1 node(s) had untolerated taint {key1: value1}. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.",
+    "reference_root_cause": "The taint has key key1, value value1, and taint effect NoSchedule. This means that no pod will be able to schedule onto node1 unless it has a matching toleration.",
+    "docs": "https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/"
+  },
+  {
+    "id": 4,
+    "kind": "Pod",
+    "category": "Scheduling",
+    "event": "FailedScheduling",
+    "error": "0/1 nodes are available: 1 Insufficient cpu. preemption: 0/1 nodes are available: 1 No preemption victims found for incoming pod.",
+    "reference_root_cause": "The Pod fails to be scheduled due to insufficient CPU resource on any node. Similar error messages can also suggest failure due to insufficient memory (PodExceedsFreeMemory). In general, if a Pod is pending with a message of this type, there are several things to try:\nAdd more nodes to the cluster.\nTerminate unneeded Pods to make room for pending Pods.\nCheck that the Pod is not larger than all the nodes. For example, if all the nodes have a capacity of cpu: 1, then a Pod with a request of cpu: 1.1 will never be scheduled.\nCheck for node taints. If most of your nodes are tainted, and the new Pod does not tolerate that taint, the scheduler only considers placements onto the remaining nodes that don't have that taint.",
+    "docs": "https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#my-pods-are-pending-with-event-message-failedscheduling"
+  },
+  {
+    "id": 5,
+    "kind": "Pod",
+    "category": "Scheduling",
+    "event": "FailedScheduling",
+    "error": "0/1 nodes are available: 1 Insufficient memory. preemption: 0/1 nodes are available: 1 No preemption victims found for incoming pod.",
+    "reference_root_cause": "If a Pod is stuck in Pending it means that it can not be scheduled onto a node. Generally this is because there are insufficient resources of one type or another that prevent scheduling.\nReasons include:\nYou don't have enough resources: You may have exhausted the supply of CPU or Memory in your cluster, in this case you need to delete Pods, adjust resource requests, or add new nodes to your cluster.",
+    "docs": "https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/#my-pod-stays-pending"
+  },
+  {
+    "id": 6,
+    "kind": "Pod",
+    "category": "Scheduling",
+    "event": "FailedScheduling",
+    "error": "0/1 nodes are available: 1 node(s) didn't match Pod's node affinity/selector. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.",
+    "reference_root_cause": "A node selector specifies a map of key/value pairs that are defined using custom labels on nodes and selectors specified in pods.\nFor the pod to be eligible to run on a node, the pod must have the same key/value node selector as the label on the node.",
+    "docs": "https://docs.openshift.com/container-platform/4.8/nodes/scheduling/nodes-scheduler-node-selectors.html"
+  },
+  {
+    "id": 7,
+    "kind": "Pod",
+    "category": "Scheduling",
+    "event": "FailedScheduling",
+    "error": "0/1 nodes are available: 1 node(s) didn't match pod affinity rules. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.",
+    "reference_root_cause": "Depending on your pod priority and preemption settings, the scheduler might not be able to find an appropriate node for a pod without violating affinity requirements. If so, a pod might not be scheduled.\nTo prevent this situation, carefully configure pod affinity with equal-priority pods.",
+    "docs": "https://docs.openshift.com/container-platform/3.11/admin_guide/scheduling/pod_affinity.html#overview"
+  },
+  {
+    "id": 8,
+    "kind": "ReplicaSet",
+    "category": "Resource Management",
+    "event": "FailedCreate",
+    "error": "pods {FAULT_POD} is forbidden: exceeded quota: ba-test, requested: cpu=500m, used: cpu=0, limited: cpu=400m",
+    "reference_root_cause": "The Pod does not get created. The output shows that creating the Pod would cause the cpu request total to exceed the cpu request quota.",
+    "docs": "https://kubernetes.io/docs/tasks/administer-cluster/manage-resources/quota-memory-cpu-namespace/#attempt-to-create-a-second-pod"
+  },
+  {
+    "id": 9,
+    "kind": "ReplicaSet",
+    "category": "Resource Management",
+    "event": "FailedCreate",
+    "error": "pods {FAULT_POD} is forbidden: exceeded quota: ba-test, requested: memory=500Mi, used: memory=0, limited: memory=400Mi",
+    "reference_root_cause": "The Pod does not get created. The output shows that creating the Pod would cause the memory request total to exceed the memory request quota.",
+    "docs": "https://kubernetes.io/docs/tasks/administer-cluster/manage-resources/quota-memory-cpu-namespace/#attempt-to-create-a-second-pod"
+  },
+  {
+    "id": 10,
+    "kind": "ReplicaSet",
+    "category": "Resource Management",
+    "event": "FailedCreate",
+    "error": "pods {FAULT_POD} is forbidden: failed quota: ba-test: must specify cpu for: {FAULT_CONTAINER}; memory for: {FAULT_CONTAINER}",
+    "reference_root_cause": "If quotas are enabled in a namespace for compute resources like cpu and memory, users must specify requests or limits for those values; otherwise, the quota system may reject pod creation. Hint: Use the LimitRanger admission controller to force defaults for pods that make no compute resource requirements.",
+    "docs": "https://kubernetes.io/docs/concepts/policy/resource-quotas/"
+  },
+  {
+    "id": 11,
+    "kind": "ReplicaSet",
+    "category": "Resource Management",
+    "event": "FailedCreate",
+    "error": "pods {FAULT_POD} is forbidden: maximum cpu usage per Container is 700m, but limit is 900m",
+    "reference_root_cause": "The output shows that the Pod does not get created, because it defines an unacceptable container. That container is not acceptable because it specifies a CPU limit that is too large.",
+    "docs": "https://kubernetes.io/docs/tasks/administer-cluster/manage-resources/cpu-constraint-namespace/#attempt-to-create-a-pod-that-exceeds-the-maximum-cpu-constraint"
+  },
+  {
+    "id": 12,
+    "kind": "ReplicaSet",
+    "category": "Resource Management",
+    "event": "FailedCreate",
+    "error": "pods {FAULT_POD} is forbidden: minimum cpu usage per Container is 100m, but request is 1m",
+    "reference_root_cause": "The output shows that the Pod does not get created, because it defines an unacceptable container. That container is not acceptable because it specifies a CPU request that is lower than the enforced minimum.",
+    "docs": "https://kubernetes.io/docs/tasks/administer-cluster/manage-resources/cpu-constraint-namespace/#attempt-to-create-a-pod-that-does-not-meet-the-minimum-cpu-request"
+  },
+  {
+    "id": 13,
+    "kind": "ReplicaSet",
+    "category": "Resource Management",
+    "event": "FailedCreate",
+    "error": "pods {FAULT_POD} is forbidden: maximum memory usage per Container is 800Mi, but limit is 900Mi",
+    "reference_root_cause": "The output shows that the Pod does not get created, because it defines a container that requests more memory than is allowed.",
+    "docs": "https://kubernetes.io/docs/tasks/administer-cluster/manage-resources/memory-constraint-namespace/#attempt-to-create-a-pod-that-exceeds-the-maximum-memory-constraint"
+  },
+  {
+    "id": 14,
+    "kind": "ReplicaSet",
+    "category": "Resource Management",
+    "event": "FailedCreate",
+    "error": "pods {FAULT_POD} is forbidden: minimum memory usage per Container is 100Mi, but request is 80Mi",
+    "reference_root_cause": "The output shows that the Pod does not get created, because it defines a container that requests less memory than the enforced minimum.",
+    "docs": "https://kubernetes.io/docs/tasks/administer-cluster/manage-resources/memory-constraint-namespace/#attempt-to-create-a-pod-that-does-not-meet-the-minimum-memory-request"
+  },
+  {
+    "id": 15,
+    "kind": "Pod",
+    "category": "Resource Management",
+    "event": "OOMKilled",
+    "error": "the last termination reason is OOMKilled container={FAULT_CONTAINER} pod={FAULT_POD}",
+    "reference_root_cause": "The JVM memory limit is bigger than the Docker memory limit. In this case, if a request occupies too much memory, the microservice container will be killed, leading to the microservices unavailable periodly.",
+    "docs": "https://github.com/FudanSELab/train-ticket-fault-replicate/blob/master/faults-lwh/F3/fault_description.txt"
+  }
+]

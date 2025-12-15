@@ -1,0 +1,60 @@
+Affected by the issue is the ReplicaSet with the name cartservice-zl8rl2nq9b in the namespace ms-demo. Here is the corresponding yaml file:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: cartservice
+  name: cartservice
+  namespace: ms-demo
+spec:
+  selector:
+    matchLabels:
+      app: cartservice
+  template:
+    metadata:
+      labels:
+        app: cartservice
+    spec:
+      containers:
+      - env:
+        - name: REDIS_ADDR
+          value: redis-cart:6379
+        image: cartservice
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          grpc:
+            port: 7070
+          initialDelaySeconds: 15
+          periodSeconds: 10
+        name: server
+        ports:
+        - containerPort: 7070
+        readinessProbe:
+          grpc:
+            port: 7070
+          initialDelaySeconds: 15
+        resources:
+          limits: {}
+          requests: {}
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          privileged: false
+          readOnlyRootFilesystem: true
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+      serviceAccountName: cartservice
+      terminationGracePeriodSeconds: 5
+```.
+
+Here is the error simplification and solution recommendation to guide your remediation:
+
+Error: pods cartservice-zl8rl2nq9b-hfc7d is forbidden: failed quota: ba-test: must specify cpu for: server; memory for: server
+Solution: If quotas are enabled in a namespace for compute resources like cpu and memory, users must specify requests or limits for those values; otherwise, the quota system may reject pod creation. Hint: Use the LimitRanger admission controller to force defaults for pods that make no compute resource requirements.

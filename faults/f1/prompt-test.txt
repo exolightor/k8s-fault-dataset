@@ -1,0 +1,34 @@
+Affected by the issue is the Pod with the name nginx-f1-fwvgg8t8c7-dgn2n in the namespace ba-test. Here is the corresponding yaml file:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations: {}
+  labels:
+    app: nginx-f1
+  name: nginx-f1
+  namespace: ba-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-f1
+  template:
+    metadata:
+      labels:
+        app: nginx-f1
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        resources:
+          limits:
+            cpu: 200m
+            memory: 5Mi          
+```.
+
+Here is the error simplification and solution recommendation to guide your remediation:
+
+Error: Error response from daemon: Minimum memory limit allowed is 6MB
+Solution: The maximum amount of memory the container can use. If you set this option, the minimum allowed value is 6m (6 megabytes). That is, you must set the value to at least 6 megabytes.

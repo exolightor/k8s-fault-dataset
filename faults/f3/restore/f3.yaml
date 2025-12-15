@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx-f3
+  name: nginx-f3
+  namespace: ba-test
+spec:
+  selector:
+    matchLabels:
+      app: nginx-f3
+  template:
+    metadata:
+      labels:
+        app: nginx-f3
+    spec:
+      containers:
+      - image: nginx
+        name: nginx-f3
+        resources: 
+          limits: 
+            cpu: 200m
+            memory: 100Mi
+      restartPolicy: Always
+      tolerations:
+        - key: "key1"
+          operator: "Equal"
+          value: "value1"
+          effect: "NoSchedule"

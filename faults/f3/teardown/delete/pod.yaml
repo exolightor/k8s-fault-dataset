@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: nginx-f3
+  name: nginx-f3
+  namespace: ba-test

@@ -1,0 +1,67 @@
+Affected by the issue is the Pod with the name shippingservice-nh8p2j7jh9-9mxrw in the namespace ms-demo. Here is the corresponding yaml file:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: shippingservice
+  name: shippingservice
+  namespace: ms-demo
+spec:
+  selector:
+    matchLabels:
+      app: shippingservice
+  template:
+    metadata:
+      labels:
+        app: shippingservice
+    spec:
+      containers:
+      - env:
+        - name: PORT
+          value: "50051"
+        - name: DISABLE_PROFILER
+          value: "1"
+        image: shippingservice
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          grpc:
+            port: 50051
+        name: server
+        ports:
+        - containerPort: 50051
+        readinessProbe:
+          grpc:
+            port: 50051
+          periodSeconds: 5
+        resources:
+          limits:
+            cpu: 11
+            memory: 128Mi
+          requests:
+            cpu: 10
+            memory: 64Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          privileged: false
+          readOnlyRootFilesystem: true
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+      serviceAccountName: shippingservice
+```.
+
+Here is the error simplification and solution recommendation to guide your remediation:
+
+Error: 0/1 nodes are available: 1 Insufficient cpu. preemption: 0/1 nodes are available: 1 No preemption victims found for incoming pod.
+Solution: The Pod fails to be scheduled due to insufficient CPU resource on any node. Similar error messages can also suggest failure due to insufficient memory (PodExceedsFreeMemory). In general, if a Pod is pending with a message of this type, there are several things to try:
+Add more nodes to the cluster.
+Terminate unneeded Pods to make room for pending Pods.
+Check that the Pod is not larger than all the nodes. For example, if all the nodes have a capacity of cpu: 1, then a Pod with a request of cpu: 1.1 will never be scheduled.
+Check for node taints. If most of your nodes are tainted, and the new Pod does not tolerate that taint, the scheduler only considers placements onto the remaining nodes that don't have that taint.
