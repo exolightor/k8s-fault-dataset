@@ -1,14 +1,11 @@
 # Kubernetes fault dataset
-This repository contains a fault dataset consisting of 17 real-time Kubernetes faults. 
-Faults F1-F15 cause Kubernetes failures and faults F16 and F17 cause microservice reponse time failures.
+This repository contains a fault dataset consisting of 15 real-time Kubernetes faults.
 
 ### Resouce Management faults
 These faults entail:
-- misconfigurations of resource constraints in respect to application
-- faults caused by increased resource usage because of rising traffic at runtime
+- misconfigurations of resource constraints in respect to application, load or cluster constraints
 Recovery actions entail:
-- adjust memory/cpu in respect to application/load/cluster
-- adjust replicas in respect to load/cluster
+- adjust memory/cpu in respect to application, load or cluster constraints
 - fix configuration faults with ENV variables
 
 ### Scheduling faults
@@ -31,11 +28,6 @@ For tests in the evaluation environment with the microservices demo application 
 To perform injections for the ms-demo environment first the manifests of the Online Boutique microservices demo application need to be pulled into the root directory:
 ~~~
 git clone https://github.com/GoogleCloudPlatform/microservices-demo
-~~~
-And chaos mesh has to be installed:
-~~~
-helm repo add chaos-mesh https://charts.chaos-mesh.org
-helm install chaos-mesh chaos-mesh/chaos-mesh --namespace=chaos --create-namespace
 ~~~
 
 ### Build artifacts for injection

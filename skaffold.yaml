@@ -14,10 +14,6 @@ build:
         context: ./faults/f2
         docker:
           dockerfile: Dockerfile
-      - image: stress-f17
-        context: ./faults/f17
-        docker:
-          dockerfile: Dockerfile
 ---
 apiVersion: skaffold/v3
 kind: Config
