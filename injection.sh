@@ -10,7 +10,15 @@ clean_inject='false'
 wait='false'
 
 print_usage() {
-  printf "Usage: injection.sh [inject | restore | teardown] [ba-test | ms-demo] f{1-18} [pod]"
+  printf "%s\n" "Usage: injection.sh [OPTION]... [COMMAND]" \
+                "Commands:" \
+                "inject     inject fault"       \
+                "restore    apply YAML which fixes the fault" \
+                "teardown   teardown all changes made by injection or fix" \
+                "Options:" \
+                "-n,    specify namespace, one of ba-test or ms-demo" \
+                "-f,    specify fault id between f1 and f15" \
+                "-p,    use pod resource of injection"
 }
 
 while getopts 'n:f:prdcw' flag; do
