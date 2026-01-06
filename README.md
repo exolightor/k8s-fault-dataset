@@ -32,10 +32,14 @@ Setup a a kubernetes cluster. We use minikube:
 ~~~
 minikube start --driver docker --container-runtime docker --cpus 8 --memory 10000
 ~~~
-Now build the docker images used for injection, skaffold should detect the kube context from minikube
+Now build the docker images used for injection, skaffold should detect the kube context from minikube.
 ~~~
 export F2_TAG=prod
 skaffold build
+~~~
+If you want to verify that images are available in minikube this command can be used to get the minikube docker context:
+~~~
+eval $(minikube docker-env)
 ~~~
 
 ### Injecting Test YAML files
@@ -61,9 +65,9 @@ git clone https://github.com/GoogleCloudPlatform/microservices-demo
 cd microservices-demo 
 skaffold run -n ms-demo
 ~~~
-To inject fault F1 into Online Boutique:
+To inject fault F1 into Online Boutique (the option -d deletes old replicasets):
 ~~~
-./injection.sh -n ms-demo -f f1 inject
+./injection.sh -n ms-demo -f f1 -d inject
 ~~~
 Apply the reference fix:
 ~~~

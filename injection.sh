@@ -16,9 +16,10 @@ print_usage() {
                 "restore    apply YAML which fixes the fault" \
                 "teardown   teardown all changes made by injection or fix" \
                 "Options:" \
-                "-n,    specify namespace, one of ba-test or ms-demo" \
+                "-n,    specify namespace (one of ba-test or ms-demo)" \
                 "-f,    specify fault id between f1 and f15" \
-                "-p,    use pod resource of injection"
+                "-p,    use pod resource for injection - if omitted the k8s deployment resource is used" \
+                "-d,    delete old replicasets"
 }
 
 while getopts 'n:f:prdcw' flag; do
