@@ -1,7 +1,7 @@
 # Kubernetes fault dataset
 This repository contains a fault dataset consisting of 15 real-time Kubernetes faults.
 
-### Resouce Management faults
+### Resouce management faults
 These faults entail:
 - misconfigurations of resource constraints in respect to application, load or cluster constraints
 Recovery actions entail:
@@ -42,7 +42,7 @@ If you want to verify that images are available in minikube this command can be 
 eval $(minikube docker-env)
 ~~~
 
-### Injecting Test YAML files
+### Injecting test YAML files
 For testing during implementation and development we used lightweight YAML manifests for a test namespace (named ba-test) without a full demo application. \
 We included for each fault a K8s Deployment manifest, e.g., faults/f1/inject/f1.yaml and a single pod manifest, e.g., faults/f1/inject/pod.yaml. \
 To inject fault F1 using the K8s Deployment resource kind:
@@ -54,7 +54,7 @@ To inject F1 using the K8s Pod resource kind:
 ./injection.sh -n ba-test -f f1 -p inject
 ~~~
 
-### Injecting Evaluation YAML files for Online Boutique
+### Injecting evaluation YAML files for Online Boutique
 For evaluation of our paper we inject faults into the [Online Boutique](https://github.com/GoogleCloudPlatform/microservices-demo) microservice demo application. \
 We use a seperate namespace named ms-demo for this and included kustomization files which patch the existing Deployment YAML manifests from Online Boutique to induce the faults. \
 For example: faults/f1/injection/kustomization.yaml. \
