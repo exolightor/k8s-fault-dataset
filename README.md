@@ -78,3 +78,8 @@ Teardown all changes from the injection:
 ./injection.sh -n ms-demo -f f1 teardown
 ~~~
 
+### Cleanup
+~~~
+cd microservices-demo && skaffold delete -n ms-demo
+~~~
+
